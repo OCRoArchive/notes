@@ -72,7 +72,7 @@ This is useful for unsupervised and self-supervised training. The more data you 
 
 ## Pages with OCR Output
 
-You can OCR in two different ways:
+You can use existing OCR output in two different ways:
 
  - use it as a starting point for manual transcription
  - provide it "as is" as training data for other engines
