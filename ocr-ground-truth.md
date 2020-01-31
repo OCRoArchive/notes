@@ -113,6 +113,12 @@ Providing output in `.hocr` format is preferred because that's what the current 
 
 It's generally best to run OCR engines on deskewed images, and, depending on the OCR system, to binarize before. If you perform such preprocessing, include the raw, deskewed, and binarized data along with the OCR output.
 
+# More Complex Training Data
+
+We can use plain text transcripts of pages like those above if we have some kind of bootstrapping system available that lets us align that data with the page. 
+
+To bootstrap a new script/language from nothing, we need some additional information: either segmentation information or output from another OCR system.
+
 ## Segmentation Training Data
 
 When training OCR systems for difficult scripts or handwriting, having manual segmentation information is helpful. A few tens of thousands of lines of manual segmentation is also needed for bootstrapping from real data if no other OCR engines or training data are available. Such segmentation information either marks every "word" separately, or every text line; the decision of what segments to mark depends on the script and language.
@@ -145,15 +151,17 @@ For the most complex segmentation tasks, you can take the following approach:
  
  Note that you can also generate `.colseglines.png` and `.colsegwords.png` images directly from OCR outputs (e.g. by rendering polygonal outputs).
 
-## Semantic Layout Training Data
+# Semantic Layout Data
+
+Semantic layout data is not needed for training an OCR system per se, but it is often needed for better interpretation of the output from an existing OCR system.
 
 For training data for semantic layout analysis, you can generate training data in a way similar to the color-based segmentation above:
 
- - first, pick a set of colors representing different semantic regions; e.g. "body text" = "#ff0000", "section headings" = "#ff7f00", "image/figure" = "#00ff00", "other text" = "#0000ff", "noise/marginal noise" = "#7f7f7f", "table" = "#007f7f"
+ - first, pick a set of colors representing different semantic regions; e.g. "body text" = "#ff0000", "section headings" = "#ff7f00", "image/figure" = "#00ff00", "other text" = "#0000ff", "noise/marginal noise" = "#7f7f7f", "table" = "#007f7f", "column separator" = "#ff00ff"
  - document the assignments in a __README__ file
  - convert the page images to grayscale (this is just for human reference)
  - load each page image into the image editor
  - paint each region in the image with the color corresponding to its semantic meaning
  - save the color image layer as `.colsemseg.png`
  
- 
+Note that marking column separators explicitly is a good idea; it is not just useful as ground truth data, it also ensures that body text regions don't accidentally touch across column boundaries. As such, column separators should be marked last. Column separators should only mark the whitespace that actually separates the text contained in two different columns. 
