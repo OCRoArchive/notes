@@ -68,7 +68,7 @@ If you want to add metadata or other kind of information, you can put it into a 
 
 ## Untranscribed Page Scans
 
-This is useful for unsupervised and self-supervised training. The more data you can provide in this form, the better. As above, JPEG or PNG format images at 600 dpi in grayscale or color are preferred. Any such data can just be tarred up in a tar file with whatever 
+This is useful for unsupervised and self-supervised training. The more data you can provide in this form, the better. As above, JPEG or PNG format images at 600 dpi in grayscale or color are preferred. Any such data can just be tarred up in a tar file in any reasonable way; just make sure to use `.png` or `.jpg` extensions, as appropriate.
 
 ## Pages with OCR Output
 
