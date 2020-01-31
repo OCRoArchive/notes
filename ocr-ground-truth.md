@@ -162,8 +162,8 @@ Bootstrapping a new recognizer from scratch also requires a minimally functionin
 
  - take page images
  - manually create `.colseglines.png` segmentation maps
- - extract text lines based on the color centerline segmentation maps
- - manually transcribe the text lines
+ - extract text lines based on the color centerline segmentation maps using a command line tool
+ - manually transcribe each of the text lines
  
 This kind of training data is represented just like page training data, with `.png` image files for each text line, and corresponding `.gt.txt` files for ground truth.
 
