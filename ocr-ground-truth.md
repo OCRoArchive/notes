@@ -1,6 +1,6 @@
 # Creating Ground Truth for OCR Training
 
-(TL;DR) The simple answer is: if you want to create usable OCR training data, first follow the instructions in the very next section: for each image file like `page1.png`, create a corresponding `page1.gt.txt` file containing the plain text contained in the image in reading order, respecting line breaks. Do that for all images and tar it up in a tar file. We can use that training data directly. See below for some more details.
+(TL;DR) If you want to create usable OCR training data, first follow the instructions in the very next section: for each image file like `page1.png`, create a corresponding `page1.gt.txt` file containing the plain text contained in the image in reading order, respecting line breaks. Do that for all images and tar it up in a tar file. We can use that training data directly. See below for some more details.
 
 # Detailed Instructions
 
