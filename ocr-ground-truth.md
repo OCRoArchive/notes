@@ -64,7 +64,7 @@ The only thing that OCR training depends on is that images and ground truth are 
 
 Since these .tar archives may be unpacked on disk by users, it's a good idea to stick to only letters, digits, and underscores in the file names and to ensure that book/document names are unique across the entire collection of documents (so that all tar files can be extracted in the same directory). You can use arbitrary directory trees in the prefixes to help organize the documents.
 
-If you want to add metadata or other kind of information, you can put it into a file called __README__ (human readable text) or __JSONINFO__ (JSON data) at the very beginning.
+If you want to add metadata or other kind of information, you can put it into a file called `__README__` (human readable text) or `__JSONINFO__` (JSON data) at the very beginning.
 
 ## Untranscribed Page Scans
 
@@ -109,7 +109,7 @@ The output from this kind of processing looks like this:
     ...
 ```
 
-Providing output in `.hocr` format is preferred because that's what the current tools understand, it's easy to parse, and it contains all the information needed for OCR training. If you have some other OCR output (e.g., Abbyy XML), just provide that with the appropriate extension. It is helpful to provide human readable information in a __README__ at the start of every .tar file.
+Providing output in `.hocr` format is preferred because that's what the current tools understand, it's easy to parse, and it contains all the information needed for OCR training. If you have some other OCR output (e.g., Abbyy XML), just provide that with the appropriate extension. It is helpful to provide human readable information in a `__README__` at the start of every .tar file.
 
 It's generally best to run OCR engines on deskewed images, and, depending on the OCR system, to binarize before. If you perform such preprocessing, include the raw, deskewed, and binarized data along with the OCR output.
 
