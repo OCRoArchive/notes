@@ -158,7 +158,7 @@ Semantic layout data is not needed for training an OCR system per se, but it is 
 For training data for semantic layout analysis, you can generate training data in a way similar to the color-based segmentation above:
 
  - first, pick a set of colors representing different semantic regions; e.g. "body text" = "#ff0000", "section headings" = "#ff7f00", "image/figure" = "#00ff00", "other text" = "#0000ff", "noise/marginal noise" = "#7f7f7f", "table" = "#007f7f", "column separator" = "#ff00ff"
- - document the assignments in a __README__ file
+ - document the assignments in a `__README__` file
  - convert the page images to grayscale (this is just for human reference)
  - load each page image into the image editor
  - paint each region in the image with the color corresponding to its semantic meaning
