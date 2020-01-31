@@ -220,11 +220,3 @@ Complete, pixel-accurate, manual ground truth might therefore consist of:
     mobydick/0001.gt.txt
     ...
 ```
-
-# How OCR Training Uses the Information
-
-How OCR training uses information depends on what information is available.
-
-# Transcriptions Only
-
-When only transcriptions are available
