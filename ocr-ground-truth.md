@@ -20,7 +20,7 @@ Some details for the transcription:
  - decide on a character set you want to use and only transcribe characters in that character set
  - you should enter headers, footers, page numbers, and footnotes as written
  - keep your document valid Markdown (but don't use Markdown markup)
- - use HTML entities consistently for characters that have special meaning in Markdown (&amp; &lt; &gt; &#35; &36;), and for backslash
+ - use HTML entities consistently for characters that have special meaning in Markdown (&amp; &lt; &gt; &#35; &#36;), and for backslash
  - you can use HTML entities for any characters that are difficult to type on a keyboard
  - do not use PDF or TIFF to encapsulate images
 
