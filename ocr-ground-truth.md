@@ -157,11 +157,21 @@ Semantic layout data is not needed for training an OCR system per se, but it is 
 
 For training data for semantic layout analysis, you can generate training data in a way similar to the color-based segmentation above:
 
- - first, pick a set of colors representing different semantic regions; e.g. "body text" = "#ff0000", "section headings" = "#ff7f00", "image/figure" = "#00ff00", "other text" = "#0000ff", "noise/marginal noise" = "#7f7f7f", "table" = "#007f7f", "column separator" = "#ff00ff"
+ - first, pick a set of colors representing different semantic regions
  - document the assignments in a `__README__` file
  - convert the page images to grayscale (this is just for human reference)
  - load each page image into the image editor
  - paint each region in the image with the color corresponding to its semantic meaning
  - save the color image layer as `.colsemseg.png`
+ 
+Here are some suggested color assignments:
+
+ - "body text" = "#ff0000" (red)
+ - "section headings" = "#ff7f00" (orange)
+ - "image/figure" = "#00ff00" (blue)
+ - "other text" = "#0000ff" (green)
+ - "noise/marginal noise" = "#7f7f7f" (gray)
+ - "table" = "#007f7f" (cyan)
+ - "column separator" = "#ff00ff" (magenta)
  
 Note that marking column separators explicitly is a good idea; it is not just useful as ground truth data, it also ensures that body text regions don't accidentally touch across column boundaries. As such, column separators should be marked last. Column separators should only mark the whitespace that actually separates the text contained in two different columns. 
