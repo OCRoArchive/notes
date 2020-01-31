@@ -113,15 +113,9 @@ Providing output in `.hocr` format is preferred because that's what the current 
 
 It's generally best to run OCR engines on deskewed images, and, depending on the OCR system, to binarize before. If you perform such preprocessing, include the raw, deskewed, and binarized data along with the OCR output.
 
-# More Complex Training Data
+# Bootstrapping Word/Line Segmentation
 
-We can use plain text transcripts of pages like those above if we have some kind of bootstrapping system available that lets us align that data with the page. 
-
-To bootstrap a new script/language from nothing, we need some additional information: either segmentation information or output from another OCR system.
-
-## Segmentation Training Data
-
-When training OCR systems for difficult scripts or handwriting, having manual segmentation information is helpful. A few tens of thousands of lines of manual segmentation is also needed for bootstrapping from real data if no other OCR engines or training data are available. Such segmentation information either marks every "word" separately, or every text line; the decision of what segments to mark depends on the script and language.
+We can use the above methods when we already have bootstrapped a reasonably well-functioning page segmenter. The original OCRopus page segmenter was heuristic based and actually works well enough for bootstrapping on many scripts. However, when it does not work well, text line or word segmentation training information is required.
 
 There are several different ways of providing this kind of information:
 
@@ -137,8 +131,8 @@ Baselines and centerlines are easy to enter and can be converted to bounding box
 
  - convert the page images to grayscale (this is just for human reference)
  - load each page image into the image editor
- - with a red pen that is at least 3 pixels tall and wide, and without anti-aliasing, draw lines through the center of each text line directly on the grayscale image
- - save the result as a color PNG files with an extension of `.centerlines.png`
+ - with a colored pen that is at least 3 pixels tall and wide, and without anti-aliasing, draw lines through the center of each text line directly on the grayscale image
+ - save the result as a color PNG files with an extension of `.centerwords.png` or `.centerlines.png`
  
 For the most complex segmentation tasks, you can take the following approach:
 
@@ -150,6 +144,43 @@ For the most complex segmentation tasks, you can take the following approach:
  - when all done, save just the color layer as `.colseglines.png` or `.colsegwords.png`
  
  Note that you can also generate `.colseglines.png` and `.colsegwords.png` images directly from OCR outputs (e.g. by rendering polygonal outputs).
+ 
+# Manual vs Engine Segmentation Representations
+
+The above segmentation representations focus on what is easy to generate for humans using drawing tools. This data needs to be converted into segmentation representations usable for actually training page segmenters.
+
+Internally, the OCR engine uses two different kinds of representations for segmentations:
+
+ - collections of axis-aligned bounding boxes for words or text lines
+ - a unified RGB segmentation format that combines text line segmentation and semantic segmentation information
+ 
+Although axis aligned bounding boxes are themselves not capable of cleanly separating words or text lines, we combine them with pixel masks that then permit efficient, pixel-accurate representation of page components.
+
+# Linewise Training Data
+
+Bootstrapping a new recognizer from scratch also requires a minimally functioning text line recognizer. Such recognizers can be bootstrapped from synthetic training data, or from linewise labeled training data. The most general process for linewise training data generation is as follows:
+
+ - take page images
+ - manually create `.colseglines.png` segmentation maps
+ - extract text lines based on the color centerline segmentation maps
+ - manually transcribe the text lines
+ 
+This kind of training data is represented just like page training data, with `.png` image files for each text line, and corresponding `.gt.txt` files for ground truth.
+
+Although the training pipeline doesn't rely on any particular format, it is helpful to human users to organize training lines by source document and page:
+
+```
+    mobydick/0001.raw.png
+    mobydick/0001.deskewed.png
+    mobydick/0001.colseglines.png
+    mobydick/0001/000001.png        # text line image for line 1
+    mobydick/0001/000001.gt.txt     # ground truth corresponding to text line image
+    mobydick/0001/000002.png        # etc.
+    mobydick/0001/000002.gt.txt
+    ...
+```
+
+Note that for this kind of data, there is no whole page transcription; furthermore, the concatenation of the text lines in numerical order may not yield the correct reading order for the whole page (since the text line extraction based on `.colseglines.png` does not necessarily extract lines in reading order).
 
 # Semantic Layout Data
 
@@ -175,3 +206,25 @@ Here are some suggested color assignments:
  - "column separator" = "#ff00ff" (magenta)
  
 Note that marking column separators explicitly is a good idea; it is not just useful as ground truth data, it also ensures that body text regions don't accidentally touch across column boundaries. As such, column separators should be marked last. Column separators should only mark the whitespace that actually separates the text contained in two different columns. 
+
+# Multiple Pieces of Ground Truth
+
+Traditionally, text representations attempt to combine all kinds of information into a single, consistent representation (e.g., XML). For training ground truth, that is not necessary, since the OCR engine itself can figure out the correspondence (and generate a consistent hOCR or PageXML description automatically).
+
+Complete, pixel-accurate, manual ground truth might therefore consist of:
+
+```
+    mobydick/0001.png
+    mobydick/0001.colseglines.png
+    mobydick/0001.colsemseg.png
+    mobydick/0001.gt.txt
+    ...
+```
+
+# How OCR Training Uses the Information
+
+How OCR training uses information depends on what information is available.
+
+# Transcriptions Only
+
+When only transcriptions are available
